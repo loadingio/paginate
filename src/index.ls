@@ -88,6 +88,8 @@ paginate.prototype = Object.create(Object.prototype) <<< do
     @_user_fetch!then (r = []) ~>
       @_running = false
       @offset += (r.length or 0)
+      # be sure to fire fetch even if r.length == 0.
+      # in order to maintain a consistent behavior for users ( fetching > fetch > empty / finish )
       @fire \fetch, r
       if r.length < @limit =>
         @_end = true
